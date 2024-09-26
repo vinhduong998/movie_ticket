@@ -19,6 +19,9 @@ const ImageBase = ({ round = 0, source, cache = false, thumbUrl, ...props }: Pro
 
   useEffect(() => {
     const getPath = async () => {
+      if (!source.uri) {
+        return
+      }
       if (!cache || thumbUrl) {
         // no cache or have thumbnail
         setUri(thumbUrl || source.uri)
@@ -31,6 +34,17 @@ const ImageBase = ({ round = 0, source, cache = false, thumbUrl, ...props }: Pro
     }
     getPath()
   }, [])
+
+  if (!source.uri) {
+    return (
+      <View style={{ borderRadius: round, overflow: "hidden" }}>
+        <Image
+          source={require("app/assets/images/loading.jpg")}
+          {...props}
+        />
+      </View>
+    )
+  }
 
   return (
     <View style={{ borderRadius: round, overflow: "hidden" }}>

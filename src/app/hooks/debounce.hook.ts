@@ -5,10 +5,6 @@ export const useDebounceState = (defaultValue: boolean, time: number, callback?:
   const activeRef = useRef(defaultValue)
   const timeout = useRef<NodeJS.Timeout>()
 
-  useEffect(() => {
-    setActive(defaultValue)
-  }, [defaultValue])
-
   const onChange = () => {
     setActive(prev => {
       if (timeout.current) {
@@ -28,5 +24,12 @@ export const useDebounceState = (defaultValue: boolean, time: number, callback?:
     })
   }
 
-  return { active, onChange, setActive }
+  return {
+    active,
+    onChange,
+    setActive: (v: boolean) => {
+      activeRef.current = v
+      setActive(v)
+    }
+  }
 }

@@ -23,7 +23,7 @@ export async function updateItem(data: TUpdateMovie): Promise<boolean> {
     }
     return _str
   }, [])
-  
+
   return new Promise((resolve, reject) => {
     DB.transaction(async function (tx) {
       await tx.executeSql(`UPDATE ${TABLE_MOVIE} SET ` + dataUpdate.join(",") + ` WHERE id = "${data.id}"`);
@@ -53,16 +53,17 @@ export async function createTable(tableName: string, structure: string): Promise
 
 export async function createDB() {
   try {
-    const structureMovie = "id, title, description, thumbnail, is_favorite, is_booked"
+    const structureMovie = "id, title, description, thumbnail, is_favorite, is_booked, date_favorite, date_booked"
     await createTable(TABLE_MOVIE, structureMovie).then(() => {
       DB.transaction((tx) => {
         tx.executeSql(`SELECT COUNT(*) from ${TABLE_MOVIE}`, [], async (tx, results) => {
-          console.log("results.rows",);
+          console.log("results.rows.item(0)?.['COUNT(*)']", results.rows.item(0)?.["COUNT(*)"]);
+          
           if (results.rows.item(0)?.["COUNT(*)"] == 0) {
             DB.transaction(function (tx) {
               DATA_MOVIES.map(async (movie) => {
-                tx.executeSql(`INSERT INTO ${TABLE_MOVIE} (${structureMovie}) VALUES (?,?,?,?,?,?)`,
-                  [movie.id, movie.title, movie.description, movie.thumbnail, movie.is_favorite, movie.is_booked]);
+                tx.executeSql(`INSERT INTO ${TABLE_MOVIE} (${structureMovie}) VALUES (?,?,?,?,?,?,?,?)`,
+                  [movie.id, movie.title, movie.description, movie.thumbnail, movie.is_favorite, movie.is_booked, null, null]);
               })
             }, function (error) {
               console.log(`Insert ${TABLE_MOVIE} ERROR: ${error.message}`);
@@ -97,8 +98,8 @@ export async function deleteDataTable(tableName: string) {
 }
 
 export async function clearDB() {
-  await DB.transaction(async (tx) => {
-    await tx.executeSql(`SELECT name FROM sqlite_master WHERE type='table'`, [], async (tx, results) => {
+  DB.transaction(async (tx) => {
+    tx.executeSql(`SELECT name FROM sqlite_master WHERE type='table'`, [], async (tx, results) => {
       try {
         for (let i = 0; i < results.rows.length; i++) {
           let table = results.rows.item(i);
@@ -119,11 +120,14 @@ export async function clearDB() {
 
 export const getDataPagination = (page: number, limit: number, is_favorite?: boolean, is_booked?: boolean): Promise<TMovie[]> => {
   let condition = "WHERE"
+  let orderBy = ""
   if (is_favorite != null) {
     condition += ` is_favorite = ${is_favorite}`
+    orderBy = "ORDER BY date_favorite DESC"
   }
   if (is_booked) {
     condition = condition + (condition === "WHERE" ? " " : " AND ") + `is_booked = ${is_booked}`
+    orderBy = "ORDER BY date_booked DESC"
   }
   if (condition === "WHERE") {
     condition = ""
@@ -132,7 +136,7 @@ export const getDataPagination = (page: number, limit: number, is_favorite?: boo
   return new Promise((resolve, reject) => {
     try {
       DB.transaction((tx) => {
-        tx.executeSql(`SELECT * FROM ${TABLE_MOVIE} ${condition} LIMIT ${limit} OFFSET ${(page - 1) * limit}`, [], (tx, results) => {
+        tx.executeSql(`SELECT * FROM ${TABLE_MOVIE} ${condition} ${orderBy} LIMIT ${limit} OFFSET ${(page - 1) * limit}`, [], (tx, results) => {
           let messages: TMovie[] = [];
           for (let i = 0; i < results.rows.length; i++) {
             try {

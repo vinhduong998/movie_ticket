@@ -4,6 +4,7 @@ import TextBase from 'app/component/core/TextBase';
 import TextBaseEllipsis from 'app/component/core/TextBase/text.base.ellipsis';
 import { BOOKING_SCREEN_ROUTE } from 'app/configs/router.config';
 import navigationHelper from 'app/helpers/navigation.helper';
+import { updateItem } from 'app/helpers/sqlite.helper';
 import { useDebounceState } from 'app/hooks/debounce.hook';
 import { RootStackList } from 'app/navigation/type.navigation';
 import { useTheme } from 'app/theme';
@@ -38,6 +39,17 @@ const DetailMovieScreen = () => {
   const { active: favorite, onChange: onPressFavorite } = useDebounceState(movie?.is_favorite || false, 500, onChangeFavorite)
 
   const onPressBooked = () => {
+    if (!movie) {
+      return
+    }
+    const _newItem = {
+      ...movie,
+      is_booked: true,
+      date_booked: new Date().toISOString()
+    }
+    setBooked(true)
+    DeviceEventEmitter.emit("change_item", _newItem)
+    updateItem(_newItem)
     navigationHelper.navigate(BOOKING_SCREEN_ROUTE)
   }
 
@@ -59,7 +71,7 @@ const DetailMovieScreen = () => {
         <Pressable style={favorite ? styles.actionFooterActive : styles.actionFooter} onPress={onPressFavorite} hitSlop={HIT_SLOP_EXPAND_10}>
           <TextBase color={favorite ? theme.background : theme.secondaryColor} fontSize={15} fontWeight={"600"} title={favorite ? "Saved" : "Save"} />
         </Pressable>
-        <Pressable style={[styles.actionFooter]} onPress={onPressBooked}>
+        <Pressable style={[styles.actionFooter]} disabled={Boolean(movie.is_booked)} onPress={onPressBooked}>
           <TextBase color={theme.secondaryColor} fontSize={15} fontWeight={"600"} title={booked ? "Booked" : "Book"} />
         </Pressable>
       </View>

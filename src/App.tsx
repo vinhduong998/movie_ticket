@@ -7,7 +7,7 @@
 
 import setupAxiosInterceptors from 'app/configs/axios.confg';
 import getStore, { persistor } from 'app/configs/store.config';
-import { createDB } from 'app/helpers/sqlite.helpter';
+import { createDB } from 'app/helpers/sqlite.helper';
 import AppNavigation from 'app/navigation/app.navigation';
 import React, { useEffect } from 'react';
 import {

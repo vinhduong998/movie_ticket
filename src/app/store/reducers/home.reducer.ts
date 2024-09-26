@@ -10,15 +10,13 @@ interface InitialState {
   favorite: TMovie[]
   booking: TMovie[]
   // loading: boolean
-  movie_reload_home?: TMovie
 }
 
 export const initialState: InitialState = {
   // loading: false,
   // movies: [],
   favorite: [],
-  booking: [],
-  movie_reload_home: undefined
+  booking: []
 };
 
 interface QueryMovie {
