@@ -4,7 +4,6 @@ import {
   createSlice
 } from '@reduxjs/toolkit';
 import { delay } from 'app/helpers/system.helpter';
-import data from "./data.json"
 
 interface InitialState {
   // movies: TMovie[]
@@ -34,23 +33,25 @@ interface QueryMovie {
 //   }
 // );
 
-export const getListTrendingMovie = createAsyncThunk(
-  "home/getListTrendingMovie",
-  async () => {
-    await delay(1000);
-    return data.slice(50, 80)
-  }
-);
+// export const getListTrendingMovie = createAsyncThunk(
+//   "home/getListTrendingMovie",
+//   async () => {
+//     await delay(1000);
+//     return data.slice(50, 80)
+//   }
+// );
 
 export const addMovieToFavorite = createAsyncThunk(
   "home/addMovieToFavorite",
   async (movie: TMovie) => {
-    const _newData = data.find(i => i.id === movie.id)?.is_favorite || false
+    // const _newData = data.find(i => i.id === movie.id)?.is_favorite || false
 
-    return {
-      ...movie,
-      is_favorite: !_newData
-    }
+    // return {
+    //   ...movie,
+    //   is_favorite: !_newData
+    // }
+
+    return movie
   }
 );
 

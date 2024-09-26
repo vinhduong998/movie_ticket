@@ -1704,13 +1704,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faker-js/faker@npm:^9.0.2":
-  version: 9.0.2
-  resolution: "@faker-js/faker@npm:9.0.2"
-  checksum: 7e929ee903a75ac17d9249a12d45bf5618309b2301e2594e3b69fbc2ea74280146b7001baf37c0b8c7ec37e0dec1b916eb650b3fc4ff875ade918b05d76bd505
-  languageName: node
-  linkType: hard
-
 "@hapi/hoek@npm:^9.0.0, @hapi/hoek@npm:^9.3.0":
   version: 9.3.0
   resolution: "@hapi/hoek@npm:9.3.0"
@@ -2873,6 +2866,13 @@ __metadata:
   version: 15.7.13
   resolution: "@types/prop-types@npm:15.7.13"
   checksum: 8935cad87c683c665d09a055919d617fe951cb3b2d5c00544e3a913f861a2bd8d2145b51c9aa6d2457d19f3107ab40784c40205e757232f6a80cc8b1c815513c
+  languageName: node
+  linkType: hard
+
+"@types/react-native-sqlite-storage@npm:^6.0.5":
+  version: 6.0.5
+  resolution: "@types/react-native-sqlite-storage@npm:6.0.5"
+  checksum: 192d4c3e2d93ea59f59387b8eb8d0aca3da32acca441aa5f84b2f4d919fc52aaa088ab5eb319ceec8471e58107d7463c56c733bfe5ff58915ac03b45313b6450
   languageName: node
   linkType: hard
 
@@ -5250,13 +5250,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs@npm:^0.0.1-security":
-  version: 0.0.1-security
-  resolution: "fs@npm:0.0.1-security"
-  checksum: 53c6230e1faae9fa32c1df82c16a84b51b1243d20f3da2b64bd110bb472b73b9185169b703e008356e3cdc92d155088b617d9d39a63b5227a30b3621baad7f5d
-  languageName: node
-  linkType: hard
-
 "fsevents@npm:^2.3.2":
   version: 2.3.3
   resolution: "fsevents@npm:2.3.3"
@@ -7509,7 +7502,6 @@ __metadata:
     "@babel/core": ^7.20.0
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
-    "@faker-js/faker": ^9.0.2
     "@react-native/babel-preset": 0.74.87
     "@react-native/eslint-config": 0.74.87
     "@react-native/metro-config": 0.74.87
@@ -7520,13 +7512,13 @@ __metadata:
     "@reduxjs/toolkit": ^2.2.7
     "@types/crypto-js": ^4.2.2
     "@types/react": ^18.2.6
+    "@types/react-native-sqlite-storage": ^6.0.5
     "@types/react-test-renderer": ^18.0.0
     "@types/redux-logger": ^3.0.13
     axios: ^1.7.7
     babel-jest: ^29.6.3
     crypto-js: ^4.2.0
     eslint: ^8.19.0
-    fs: ^0.0.1-security
     jest: ^29.6.3
     path: ^0.12.7
     prettier: 2.8.8
@@ -7538,6 +7530,7 @@ __metadata:
     react-native-reanimated: ^3.15.3
     react-native-safe-area-context: ^4.11.0
     react-native-screens: ^3.34.0
+    react-native-sqlite-storage: ^6.0.1
     react-redux: ^9.1.2
     react-test-renderer: 18.2.0
     redux: ^5.0.1
@@ -8396,6 +8389,15 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 28c1f6e556c318ffcbd79d153b9612cc8a0b8d8b70f909d3cde2fd6d0586a7c151a449e57400d8996f4ee6c3b5140c5c4f643a427e974f6dc573b2bcd8eb7356
+  languageName: node
+  linkType: hard
+
+"react-native-sqlite-storage@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "react-native-sqlite-storage@npm:6.0.1"
+  peerDependencies:
+    react-native: ">=0.14.0"
+  checksum: 79bd454682beb22cdfb5a234b9d52b454d0451dccf03a3c15b70b9c331b32cf0066703652b0d23707bda9b9b4c8063e92d31084171af3ea647855b5d727746e0
   languageName: node
   linkType: hard
 

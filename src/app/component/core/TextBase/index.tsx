@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 
-import { StyleProp, Text, TextProps, TextStyle } from "react-native";
+import { ColorValue, StyleProp, Text, TextProps, TextStyle } from "react-native";
 import { MHS } from "app/ui/sizes.ui";
 import { useTheme } from "app/theme";
 
@@ -9,7 +9,7 @@ interface Props extends TextProps {
   style?: TextStyle;
   fontSize?: number;
   fontWeight?: TextStyle["fontWeight"];
-  color?: string;
+  color?: string | ColorValue;
   textAlign?: TextStyle["textAlign"]
 }
 

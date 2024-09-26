@@ -7,8 +7,9 @@
 
 import setupAxiosInterceptors from 'app/configs/axios.confg';
 import getStore, { persistor } from 'app/configs/store.config';
+import { createDB } from 'app/helpers/sqlite.helpter';
 import AppNavigation from 'app/navigation/app.navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   StatusBar,
   StyleSheet
@@ -25,6 +26,11 @@ const store = getStore()
 setupAxiosInterceptors()
 
 function App() {
+  useEffect(() => {
+    createDB()
+  }, [])
+
+
   return (
     <GestureHandlerRootView style={styles.container}>
       <StatusBar

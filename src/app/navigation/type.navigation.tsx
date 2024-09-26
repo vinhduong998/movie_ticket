@@ -3,7 +3,7 @@ import { BOOKING_SCREEN_ROUTE, DETAIL_MOVIE_SCREEN_ROUTE, FAVORITE_SCREEN_ROUTE,
 export type RootStackList = {
   [NAVIGATION_TAB]: undefined
   [DETAIL_MOVIE_SCREEN_ROUTE]: { movie: TMovie }
-};
+} & BottomTabList;
 
 export type BottomTabList = {
   [HOME_SCREEN_ROUTE]: undefined

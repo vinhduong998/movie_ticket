@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react"
 
 export const useMounted = <T>(_function: Promise<T>, callback: (res: T) => void, deps: any[] = []) => {
-  const mounted = useRef(false)
+  const mounted = useRef(true)
 
   useEffect(() => {
     const callFunction = async () => {
@@ -11,7 +11,8 @@ export const useMounted = <T>(_function: Promise<T>, callback: (res: T) => void,
           callback(res)
         }
       } catch (error) {
-
+        console.log("error", error);
+        
       }
     }
     callFunction()

@@ -3,13 +3,11 @@ import { SystemTheme } from 'app/theme/theme.context';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import ListHomeComponent from './component/list.home';
-import TrendingHomeComponent from './component/trending.home';
 
 const HomeScreen = () => {
   const { styles } = useTheme(createStyles)
   return (
     <View style={styles.container}>
-      <TrendingHomeComponent />
       <ListHomeComponent />
     </View>
   )

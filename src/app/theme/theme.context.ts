@@ -5,6 +5,8 @@ export type SystemTheme = {
   background: ColorValue
   text: ColorValue
   mainColor: ColorValue
+  smoke: ColorValue
+  secondaryColor: ColorValue
 }
 
 export const RootColor = {
@@ -14,6 +16,8 @@ export const RootColor = {
   MainColor: "#a51c30",
   DarkText: "#0E1426",
   LightText: "#FFF",
+  Smoke: "#D9D9D9",
+  SecondaryColor: "#626F82",
 }
 
 export const themes: {
@@ -23,12 +27,16 @@ export const themes: {
   light: {
     background: RootColor.LightBackground,
     text: RootColor.DarkText,
-    mainColor: RootColor.MainColor
+    mainColor: RootColor.MainColor,
+    smoke: RootColor.Smoke,
+    secondaryColor: RootColor.SecondaryColor
   },
   dark: {
     background: RootColor.DarkBackground,
     text: RootColor.DarkText,
-    mainColor: RootColor.MainColor
+    mainColor: RootColor.MainColor,
+    smoke: RootColor.Smoke,
+    secondaryColor: RootColor.SecondaryColor
   },
 };
 
