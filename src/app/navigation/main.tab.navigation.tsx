@@ -17,8 +17,7 @@ const MainTab = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: false,
-        tabBarHideOnKeyboard: true,
+        tabBarHideOnKeyboard: true
       }}
       initialRouteName={HOME_SCREEN_ROUTE}
     // tabBar={(props) => {

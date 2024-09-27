@@ -1,13 +1,14 @@
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import ListBase, { TypedRefBaseListCustom } from 'app/component/core/List/list.base';
 import { getDataPagination } from 'app/helpers/sqlite.helper';
 import { useTheme } from 'app/theme';
 import { SystemTheme } from 'app/theme/theme.context';
 import { VS } from 'app/ui/sizes.ui';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import { DeviceEventEmitter, StyleSheet, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import ItemMovieHomeComponent, { NAME_SCREEN } from '../home/component/item.movie.home';
+import LoadingHome from '../home/component/loading.home';
 
 const LIMIT = 12
 
@@ -16,6 +17,14 @@ const FavoriteScreen = () => {
   const listRef = useRef<TypedRefBaseListCustom<TMovie>>(null)
 
   const isFocused = useIsFocused()
+
+  const navigation = useNavigation()
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: "Favorite"
+    })
+  }, [])
 
   useEffect(() => {
     if (isFocused) {
@@ -49,6 +58,7 @@ const FavoriteScreen = () => {
         onLoadMoreProp={getData}
         ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
         limit={LIMIT}
+        skeleton={() => <LoadingHome />}
       />
     </Animated.View>
   )
@@ -58,7 +68,7 @@ const createStyles = (theme: SystemTheme) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: theme.background
+      backgroundColor: theme.background,
     },
     itemSeparator: {
       height: VS._10,

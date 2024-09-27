@@ -1,11 +1,20 @@
 import { useTheme } from 'app/theme';
 import { SystemTheme } from 'app/theme/theme.context';
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import ListHomeComponent from './component/list.home';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
   const { styles } = useTheme(createStyles)
+  const navigation = useNavigation()
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: "Home"
+    })
+  }, [])
+
   return (
     <View style={styles.container}>
       <ListHomeComponent />

@@ -52,13 +52,13 @@ export async function createTable(tableName: string, structure: string): Promise
 }
 
 export async function createDB() {
-  try {
+  return new Promise(async (resolve, reject) => {
     const structureMovie = "id, title, description, thumbnail, is_favorite, is_booked, date_favorite, date_booked"
     await createTable(TABLE_MOVIE, structureMovie).then(() => {
       DB.transaction((tx) => {
         tx.executeSql(`SELECT COUNT(*) from ${TABLE_MOVIE}`, [], async (tx, results) => {
           console.log("results.rows.item(0)?.['COUNT(*)']", results.rows.item(0)?.["COUNT(*)"]);
-          
+
           if (results.rows.item(0)?.["COUNT(*)"] == 0) {
             DB.transaction(function (tx) {
               DATA_MOVIES.map(async (movie) => {
@@ -67,19 +67,22 @@ export async function createDB() {
               })
             }, function (error) {
               console.log(`Insert ${TABLE_MOVIE} ERROR: ${error.message}`);
+              reject(error)
             }, function () {
               console.log(`Insert ${TABLE_MOVIE} SUCCESS`);
+              resolve(true)
             });
           }
         });
       }, function (error) {
         console.log(`create DB ERROR: ${error.message}`);
+        reject(error)
       }, function () {
         console.log(`create DB SUCCESS`);
+        resolve(true)
       });
     });
-  } catch (error) {
-  }
+  })
 }
 
 export async function deleteDataTable(tableName: string) {

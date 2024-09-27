@@ -1,6 +1,7 @@
 import { CACHE_MEDIA_HOME_FOLDER, getMediaCachePath } from 'app/helpers/file.helper';
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ImageProps, Image, ImageURISource, ImageRequireSource } from 'react-native';
+import Animated from 'react-native-reanimated';
 
 interface ImageUri extends ImageURISource {
   uri: string
@@ -11,9 +12,10 @@ interface Props extends ImageProps {
   source: ImageUri;
   cache?: boolean;
   thumbUrl?: string;
+  sharedTag?: boolean
 }
 
-const ImageBase = ({ round = 0, source, cache = false, thumbUrl, ...props }: Props) => {
+const ImageBase = ({ round = 0, source, cache = false, thumbUrl, sharedTag, ...props }: Props) => {
   const [loading, setLoading] = useState(true)
   const [uri, setUri] = useState("")
 
@@ -35,6 +37,24 @@ const ImageBase = ({ round = 0, source, cache = false, thumbUrl, ...props }: Pro
     getPath()
   }, [])
 
+  const renderContent = () => {
+    if (loading) {
+      return (
+        <Image
+          source={require("app/assets/images/loading.jpg")}
+          {...props}
+        />
+      )
+    }
+    return (
+      <Image
+        source={{ ...source, uri: uri }}
+        resizeMode="cover"
+        {...props}
+      />
+    )
+  }
+
   if (!source.uri) {
     return (
       <View style={{ borderRadius: round, overflow: "hidden" }}>
@@ -46,23 +66,17 @@ const ImageBase = ({ round = 0, source, cache = false, thumbUrl, ...props }: Pro
     )
   }
 
+  if (sharedTag) {
+    return (
+      <Animated.View sharedTransitionTag={source.uri} style={{ borderRadius: round, overflow: "hidden" }}>
+        {renderContent()}
+      </Animated.View>
+    )
+  }
+
   return (
     <View style={{ borderRadius: round, overflow: "hidden" }}>
-      {
-        loading ? (
-          <Image
-            source={require("app/assets/images/loading.jpg")}
-            {...props}
-          />
-        ) : (
-          <Image
-            source={{ ...source, uri: uri }}
-            resizeMode="cover"
-            {...props}
-          />
-        )
-      }
-
+      {renderContent()}
     </View>
   )
 };

@@ -8,6 +8,7 @@ import { DeviceEventEmitter, StyleSheet, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import ItemMovieHomeComponent, { NAME_SCREEN } from './item.movie.home';
 import TrendingHomeComponent from './trending.home';
+import LoadingHome from './loading.home';
 
 const LIMIT = 12
 
@@ -56,6 +57,8 @@ const ListHomeComponent = () => {
         onLoadMoreProp={getData}
         ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
         limit={LIMIT}
+        skeleton={() => <LoadingHome />}
+        ListHeaderComponent={ListHeaderComponent}
       />
     </Animated.View>
   )

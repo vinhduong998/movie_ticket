@@ -64,7 +64,7 @@ const ItemMovieHomeComponent = ({ item, onFavorite, name }: ItemProps) => {
         style={{ gap: VS._10 }}
         entering={FadeInLeft.springify().damping(80).stiffness(200)}
       >
-        <ImageBase cache={true} source={{ uri: item.thumbnail }} style={{ width: Device.width, height: VS._200 }} />
+        <ImageBase cache={true} source={{ uri: item.thumbnail }} style={{ width: Device.width, height: VS._200 }} sharedTag={true} />
         <View style={{ paddingHorizontal: HS._16, gap: VS._6 }}>
           <TextBase title={item.title} fontSize={16} fontWeight={600} numberOfLines={2} />
           <TextBase title={item.description} numberOfLines={3} />

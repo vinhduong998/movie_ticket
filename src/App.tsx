@@ -5,14 +5,16 @@
  * @format
  */
 
+import TextBase from 'app/component/core/TextBase';
 import setupAxiosInterceptors from 'app/configs/axios.confg';
 import getStore, { persistor } from 'app/configs/store.config';
 import { createDB } from 'app/helpers/sqlite.helper';
 import AppNavigation from 'app/navigation/app.navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StatusBar,
-  StyleSheet
+  StyleSheet,
+  View
 } from 'react-native';
 
 
@@ -26,8 +28,14 @@ const store = getStore()
 setupAxiosInterceptors()
 
 function App() {
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
-    createDB()
+    // setup database local
+    createDB().then(() => {
+      setLoading(false)
+    }).catch((error) => {
+      console.warn(error)
+    })
   }, [])
 
 
@@ -40,7 +48,14 @@ function App() {
       <SafeAreaProvider>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <AppNavigation />
+            {
+              !loading ? <AppNavigation /> : (
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                  <TextBase title={"Loading for database local..."} />
+                  <TextBase title={"(Can be intro screen)"} />
+                </View>
+              )
+            }
           </PersistGate>
         </Provider>
       </SafeAreaProvider>
