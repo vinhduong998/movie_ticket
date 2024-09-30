@@ -1,79 +1,51 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+This is Project Demo by [**Vinh Duong**](https://fb.me/vinhduong998).
 
-# Getting Started
+# Movie Ticket
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Release
 
-## Step 1: Start the Metro Server
+- Loading large list in home screen. 1500 data
+- Infinity scrolling in trending movie
+- Unit test with detox
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## Feature
 
-To start Metro, run the following command from the _root_ of your React Native project:
+- Improve carousel in home to auto slide
+- Improve performance in home screen with [**react-native-flash-list**](https://shopify.github.io/flash-list/) (if need)
 
-```bash
-# using npm
-npm start
+## Test case
 
-# OR using Yarn
-yarn start
-```
+- Have loading screen
+- Show 3 button in bottom tab and navigate to screen when clicked
+- Have list in home screen
+- Navigate to detail screen when clicked on item in list
+- Click button Save on item in list it change to Saved
+- Navigate to booking screen when clicked book from detail screen
 
-## Step 2: Start your Application
+## Library Setup
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+### Navigation
+react-navigation
 
-### For Android
+### Animation
+react-native-reanimated
 
-```bash
-# using npm
-npm run android
+react-native-gesture-handler
 
-# OR using Yarn
-yarn android
-```
+### State management (redux)
+@reduxjs/toolkit
 
-### For iOS
+react-native-mmkv(storage)
 
-```bash
-# using npm
-npm run ios
+redux-logger
 
-# OR using Yarn
-yarn ios
-```
+redux-persist
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+### Mock data
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+react-native-sqlite-storage
 
-## Step 3: Modifying your App
+### Image
 
-Now that you have successfully run the app, let's modify it.
+Cache file to local with react-native-fs
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.

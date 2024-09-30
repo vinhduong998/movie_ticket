@@ -16,7 +16,7 @@ const HomeScreen = () => {
   }, [])
 
   return (
-    <View style={styles.container}>
+    <View testID='home' style={styles.container}>
       <ListHomeComponent />
     </View>
   )

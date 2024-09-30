@@ -40,8 +40,8 @@ interface Props<T> extends Omit<FlatListProps<T>, "data"> {
 }
 
 export interface TypedRefBaseListCustom<T> {
-  refresh: () => void
-  setList: (functionCB: React.SetStateAction<T[]>) => void
+  refresh: (config?: { showSkeleton: boolean }) => void
+  setList: React.Dispatch<React.SetStateAction<T[]>>
   scrollToTop: () => void
 }
 
@@ -101,12 +101,13 @@ const ListBaseComponent = <T,>(props: Props<T>, ref: React.Ref<TypedRefBaseListC
   }, []);
 
   useImperativeHandle(ref, () => ({
-    refresh: () => {
+    refresh: (config) => {
+      if (config?.showSkeleton) {
+        setList([])
+      }
       setLoading(true);
     },
-    setList: (functionCallback) => {
-      setList(functionCallback)
-    },
+    setList: setList,
     scrollToTop: () => {
       flatlistRef.current?.scrollToOffset({ offset: 0, animated: false })
     }

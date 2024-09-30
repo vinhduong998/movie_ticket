@@ -50,7 +50,7 @@ function App() {
           <PersistGate loading={null} persistor={persistor}>
             {
               !loading ? <AppNavigation /> : (
-                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <View testID='welcome' style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                   <TextBase title={"Loading for database local..."} />
                   <TextBase title={"(Can be intro screen)"} />
                 </View>

@@ -41,6 +41,9 @@ interface SkeletonPlaceholderProps {
    * @default right
    */
   direction?: "left" | "right";
+
+
+  testID?: string
 }
 
 export default function SkeletonPlaceholder({
@@ -49,6 +52,7 @@ export default function SkeletonPlaceholder({
   speed = 800,
   highlightColor = "#F2F8FC",
   direction = "right",
+  testID
 }: SkeletonPlaceholderProps): JSX.Element {
   const [layout, setLayout] = React.useState<LayoutRectangle>();
   const animatedValue = React.useMemo(() => new Animated.Value(0), []);
@@ -134,6 +138,7 @@ export default function SkeletonPlaceholder({
           {getChildren(children)}
         </View>
       }
+      testID={testID}
     >
       <View style={{ flexGrow: 1, backgroundColor }} />
       {speed > 0 && (
@@ -171,6 +176,7 @@ export default function SkeletonPlaceholder({
       onLayout={(event: LayoutChangeEvent) => {
         setLayout(event.nativeEvent.layout);
       }}
+      testID={testID}
     >
       {getChildren(children)}
     </View>

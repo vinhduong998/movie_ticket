@@ -9,7 +9,7 @@ import { SystemTheme } from 'app/theme/theme.context';
 import { Device } from 'app/ui/device.ui';
 import { Shadow3 } from 'app/ui/shadow.ui';
 import { HIT_SLOP_EXPAND_10, HS, MHS, VS } from 'app/ui/sizes.ui';
-import React, { useCallback, useEffect } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
 import { DeviceEventEmitter, Pressable, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
 
@@ -17,6 +17,7 @@ interface ItemProps {
   item: TMovie
   onFavorite?: (data: TMovie) => void
   name: NAME_SCREEN
+  index: number
 }
 
 export enum NAME_SCREEN {
@@ -25,7 +26,7 @@ export enum NAME_SCREEN {
   BOOKING = "booking"
 }
 
-const ItemMovieHomeComponent = ({ item, onFavorite, name }: ItemProps) => {
+const ItemMovieHomeComponent = ({ item, onFavorite, name, index }: ItemProps) => {
   const { styles, theme } = useTheme(createStyles)
 
   const updateLocalData = useCallback(async (value: boolean) => {
@@ -41,24 +42,21 @@ const ItemMovieHomeComponent = ({ item, onFavorite, name }: ItemProps) => {
   const { active: favorite, onChange: onPressFavorite, setActive: setFavorite } = useDebounceState(item.is_favorite, 500, updateLocalData)
 
   useEffect(() => {
-    setFavorite(item.is_favorite)
+    setFavorite(Boolean(item.is_favorite))
   }, [item])
 
-  const onPressMovie = () => {
-    DeviceEventEmitter.addListener(item.id, (value: boolean) => {
-      setFavorite(value)
-      updateLocalData(value)
-    })
+  const onPressMovie = useCallback(() => {
+    DeviceEventEmitter.addListener(item.id, setFavorite)
     navigationHelper.navigate(DETAIL_MOVIE_SCREEN_ROUTE, {
       movie: {
         ...item,
         is_favorite: favorite
       }
     })
-  }
+  }, [])
 
   return (
-    <TouchableWithoutFeedback onPress={onPressMovie}>
+    <TouchableWithoutFeedback onPress={onPressMovie} testID={`${name}-${index}`}>
       <Animated.View
         key={item.id}
         style={{ gap: VS._10 }}
@@ -70,13 +68,13 @@ const ItemMovieHomeComponent = ({ item, onFavorite, name }: ItemProps) => {
           <TextBase title={item.description} numberOfLines={3} />
         </View>
         <View style={styles.footerZeroBottom}>
-          <Pressable style={favorite ? styles.actionFooterActive : styles.actionFooter} onPress={onPressFavorite} hitSlop={HIT_SLOP_EXPAND_10}>
+          <Pressable testID={`${name}-button-${index}`} style={favorite ? styles.actionFooterActive : styles.actionFooter} onPress={onPressFavorite} hitSlop={HIT_SLOP_EXPAND_10}>
             <TextBase color={favorite ? theme.background : theme.secondaryColor} fontSize={15} fontWeight={"600"} title={favorite ? "Saved" : "Save"} />
           </Pressable>
           {
             name !== "booking" && (
-              <Pressable style={[styles.actionFooter]} disabled={Boolean(item.is_booked)} onPress={onPressMovie}>
-                <TextBase color={theme.secondaryColor} fontSize={15} fontWeight={"600"} title={item.is_booked ? "Booked" : "Book"} />
+              <Pressable style={[styles.actionFooter]} onPress={onPressMovie}>
+                <TextBase color={theme.secondaryColor} fontSize={15} fontWeight={"600"} title={Boolean(item.is_booked) ? "Booked" : "Book"} />
               </Pressable>
             )
           }
@@ -129,4 +127,4 @@ const createStyles = (theme: SystemTheme) => {
   })
 }
 
-export default ItemMovieHomeComponent;
+export default memo(ItemMovieHomeComponent);

@@ -66,13 +66,13 @@ const ImageBase = ({ round = 0, source, cache = false, thumbUrl, sharedTag, ...p
     )
   }
 
-  if (sharedTag) {
-    return (
-      <Animated.View sharedTransitionTag={source.uri} style={{ borderRadius: round, overflow: "hidden" }}>
-        {renderContent()}
-      </Animated.View>
-    )
-  }
+  // if (sharedTag) {
+  //   return (
+  //     <Animated.View sharedTransitionTag={source.uri} style={{ borderRadius: round, overflow: "hidden" }}>
+  //       {renderContent()}
+  //     </Animated.View>
+  //   )
+  // }
 
   return (
     <View style={{ borderRadius: round, overflow: "hidden" }}>

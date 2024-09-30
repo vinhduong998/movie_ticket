@@ -4,16 +4,16 @@ import { useTheme } from 'app/theme';
 import { SystemTheme } from 'app/theme/theme.context';
 import { VS } from 'app/ui/sizes.ui';
 import React, { useCallback, useEffect, useRef } from 'react';
-import { DeviceEventEmitter, StyleSheet, View } from 'react-native';
+import { DeviceEventEmitter, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import ItemMovieHomeComponent, { NAME_SCREEN } from './item.movie.home';
-import TrendingHomeComponent from './trending.home';
 import LoadingHome from './loading.home';
+import TrendingHomeComponent from './trending.home';
 
 const LIMIT = 12
 
 const ListHomeComponent = () => {
-  const { styles, theme } = useTheme(createStyles)
+  const { styles } = useTheme(createStyles)
   const flatListRef = useRef<TypedRefBaseListCustom<TMovie>>(null)
 
   // ----- useEffect
@@ -33,11 +33,11 @@ const ListHomeComponent = () => {
   // ----- end useEffect
 
   // ----- component
-  const renderItem = ({ item }: { item: TMovie }) => {
+  const renderItem = useCallback(({ item, index }: ListRenderItemInfo<TMovie>) => {
     return (
-      <ItemMovieHomeComponent item={item} name={NAME_SCREEN.HOME} />
+      <ItemMovieHomeComponent item={item} name={NAME_SCREEN.HOME} index={index} />
     )
-  }
+  }, [])
 
   const ListHeaderComponent = useCallback(() => {
     return (
@@ -51,14 +51,16 @@ const ListHomeComponent = () => {
   return (
     <Animated.View style={styles.container} layout={LinearTransition.springify().damping(80).stiffness(200)}>
       <ListBase<TMovie>
+        ref={flatListRef}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         onRefreshProp={getData}
         onLoadMoreProp={getData}
         ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
         limit={LIMIT}
-        skeleton={() => <LoadingHome />}
+        skeleton={() => <LoadingHome testID={'loading-home'} />}
         ListHeaderComponent={ListHeaderComponent}
+        testID='list-home'
       />
     </Animated.View>
   )

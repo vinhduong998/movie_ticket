@@ -1,12 +1,14 @@
 import ImageBase from 'app/component/core/ImageBase';
 import TextBase from 'app/component/core/TextBase';
+import { DETAIL_MOVIE_SCREEN_ROUTE } from 'app/configs/router.config';
+import navigationHelper from 'app/helpers/navigation.helper';
 import { getDataPagination } from 'app/helpers/sqlite.helper';
 import { useTheme } from 'app/theme';
 import { SystemTheme } from 'app/theme/theme.context';
 import { Device } from 'app/ui/device.ui';
 import { HS, MHS, VS } from 'app/ui/sizes.ui';
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, { Extrapolation, interpolate, interpolateColor, SharedValue, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
@@ -89,20 +91,26 @@ const ItemTrending = ({ item, index, x, length }: ItemProps) => {
       x.value = withTiming(Math.round(x.value), { duration: 200 })
     })
 
+  const onPressItem = () => {
+    navigationHelper.navigate(DETAIL_MOVIE_SCREEN_ROUTE, { movie: item })
+  }
+
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View style={[styles.item, styleItem]}>
-        <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
-          locations={[0, 0.6, 0.7, 0.8, 1]}
-          colors={["#00000000", "#00000000", "#00000060", "#00000080", "#000000"]}
-          style={styles.overlay}
-        >
-          <TextBase title={item.title} numberOfLines={1} fontSize={30} fontWeight={"600"} color={"white"} />
-        </LinearGradient>
-        <ImageBase source={{ uri: item.thumbnail }} style={{ width: WIDTH_ITEM, aspectRatio: ASPECT_RATIO }} resizeMode='cover' />
-      </Animated.View>
+      <TouchableWithoutFeedback onPress={onPressItem}>
+        <Animated.View style={[styles.item, styleItem]}>
+          <LinearGradient
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }}
+            locations={[0, 0.6, 0.7, 0.8, 1]}
+            colors={["#00000000", "#00000000", "#00000060", "#00000080", "#000000"]}
+            style={styles.overlay}
+          >
+            <TextBase title={item.title} numberOfLines={1} fontSize={30} fontWeight={"600"} color={"white"} />
+          </LinearGradient>
+          <ImageBase source={{ uri: item.thumbnail }} style={{ width: WIDTH_ITEM, aspectRatio: ASPECT_RATIO }} resizeMode='cover' />
+        </Animated.View>
+      </TouchableWithoutFeedback>
     </GestureDetector>
   )
 }
@@ -158,7 +166,7 @@ const TrendingHomeComponent = () => {
   // }
 
   return (
-    <View style={styles.container}>
+    <View testID='trending' style={styles.container}>
       <View style={styles.viewCarousel}>
         {
           listMovieTrending.map((item, index) => renderItem({ item, index }))

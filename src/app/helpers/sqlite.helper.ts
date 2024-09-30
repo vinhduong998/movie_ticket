@@ -37,6 +37,38 @@ export async function updateItem(data: TUpdateMovie): Promise<boolean> {
   });
 }
 
+export async function getItem(id?: string): Promise<TMovie | undefined> {
+  if (!id) {
+    return undefined
+  }
+  return new Promise((resolve, reject) => {
+    try {
+      DB.transaction((tx) => {
+        tx.executeSql(`SELECT * FROM ${TABLE_MOVIE} WHERE id = "${id}" LIMIT 1`, [], (tx, results) => {
+          if (!results.rows.item(0)) {
+            return undefined
+          }
+          resolve({
+            id: results.rows.item(0).id,
+            title: results.rows.item(0).title,
+            description: results.rows.item(0).description,
+            thumbnail: results.rows.item(0).thumbnail,
+            is_favorite: results.rows.item(0).is_favorite,
+            is_booked: results.rows.item(0).is_booked
+          });
+        })
+      }, function (error) {
+        console.log(`Get message ${TABLE_MOVIE} id ${id} ERROR: ${error.message}`);
+        reject(error)
+      }, function () {
+        console.log(`Get message ${TABLE_MOVIE} id ${id} SUCCESS`);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  })
+}
+
 export async function createTable(tableName: string, structure: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
     DB.transaction(function (tx) {

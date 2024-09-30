@@ -36,6 +36,9 @@ const AppNavigation = () => {
             component={MainTab}
           />
           <NativeStack.Screen
+            options={{
+              headerShown: true
+            }}
             name={DETAIL_MOVIE_SCREEN_ROUTE}
             component={DetailMovieScreen}
           />

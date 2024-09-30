@@ -5,7 +5,7 @@ import { useTheme } from 'app/theme';
 import { SystemTheme } from 'app/theme/theme.context';
 import { VS } from 'app/ui/sizes.ui';
 import React, { useEffect, useLayoutEffect, useRef } from 'react';
-import { DeviceEventEmitter, StyleSheet, View } from 'react-native';
+import { DeviceEventEmitter, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import ItemMovieHomeComponent, { NAME_SCREEN } from '../home/component/item.movie.home';
 import LoadingHome from '../home/component/loading.home';
@@ -42,9 +42,9 @@ const FavoriteScreen = () => {
     listRef.current?.setList(list => list.filter(i => i.id !== data.id))
   }
 
-  const renderItem = ({ item }: { item: TMovie }) => {
+  const renderItem = ({ item, index }: ListRenderItemInfo<TMovie>) => {
     return (
-      <ItemMovieHomeComponent item={item} onFavorite={onFavorite} name={NAME_SCREEN.FAVORITE} />
+      <ItemMovieHomeComponent item={item} index={index} onFavorite={onFavorite} name={NAME_SCREEN.FAVORITE} />
     )
   }
 
@@ -52,13 +52,14 @@ const FavoriteScreen = () => {
     <Animated.View style={styles.container} layout={LinearTransition.springify().damping(80).stiffness(200)}>
       <ListBase<TMovie>
         ref={listRef}
+        testID='favorite-list'
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         onRefreshProp={getData}
         onLoadMoreProp={getData}
         ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
         limit={LIMIT}
-        skeleton={() => <LoadingHome />}
+        skeleton={() => <LoadingHome testID='loading-favorite' />}
       />
     </Animated.View>
   )
