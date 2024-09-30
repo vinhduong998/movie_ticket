@@ -88,7 +88,7 @@ const DetailMovieScreen = () => {
   return (
     <View testID='detail-movie' style={styles.container}>
       <ScrollView bouncesZoom={false} bounces={false} style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: VS._20, gap: VS._10 }}>
-        <ImageBase source={{ uri: detailMovie.thumbnail }} style={{ width: Device.width, height: VS._200 }} sharedTag={true} />
+        <ImageBase source={{ uri: detailMovie.thumbnail }} style={{ width: Device.width, height: VS._200 }} cache={true} sharedTag={true} />
         <View style={{ paddingHorizontal: HS._16, gap: VS._10 }}>
           <TextBase title={detailMovie.title} fontSize={16} fontWeight={600} />
           <TextBaseEllipsis title={detailMovie.description} width={Device.width - HS._32} numberOfLines={5} />

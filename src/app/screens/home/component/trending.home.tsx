@@ -108,7 +108,7 @@ const ItemTrending = ({ item, index, x, length }: ItemProps) => {
           >
             <TextBase title={item.title} numberOfLines={1} fontSize={30} fontWeight={"600"} color={"white"} />
           </LinearGradient>
-          <ImageBase source={{ uri: item.thumbnail }} style={{ width: WIDTH_ITEM, aspectRatio: ASPECT_RATIO }} resizeMode='cover' />
+          <ImageBase cache={true} source={{ uri: item.thumbnail }} style={{ width: WIDTH_ITEM, aspectRatio: ASPECT_RATIO }} resizeMode='cover' />
         </Animated.View>
       </TouchableWithoutFeedback>
     </GestureDetector>
